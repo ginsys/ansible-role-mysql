@@ -101,7 +101,7 @@
 - name: Create the replication users
   mysql_user:
     name:     "{{ item.name }}"
-    host:     "%"
+    host:     "{{ item.host|default('"%"') }}"
     password: "{{ item.pass|default('foobar') }}"
     priv:     '*.*:"REPLICATION SLAVE'
     state:    present
