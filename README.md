@@ -1,6 +1,9 @@
 MySQL Server
 ============
 
+This is a fork of https://github.com/bennojoy/mysql which at in late September
+2015 seemed unmaintained for over a year.
+
 This roles helps to install MySQL Server across RHEL and Ubuntu variants.
 Apart from installing the MySQL Server, it applies basic hardening, like
 securing the root account with password, and removing test databases. The role
@@ -26,7 +29,7 @@ them are as follows:
 
       # A list that has all the databases to be
       # created and their replication status:
-      mysql_db:                                 
+      mysql_db:
            - name: foo
              replicate: yes
            - name: bar
@@ -34,14 +37,14 @@ them are as follows:
 
       # A list of the mysql users to be created
       # and their password and privileges:
-      mysql_users:                              
+      mysql_users:
            - name: benz
              pass: foobar
              priv: "*.*:ALL"
 
       # If the database is replicated the users
       # to be used for replication:
-      mysql_repl_user:                          
+      mysql_repl_user:
         - name: repl
           pass: foobar
 
@@ -79,7 +82,7 @@ database as replication master with one database configured for replication.
       - hosts: all
         roles:
          - {role: mysql, mysql_db: [{name: benz, replicate: yes },
-                                    { name: benz2, replicate: no}], 
+                                    { name: benz2, replicate: no}],
                          mysql_users: [{name: ben3, pass: foobar, priv: "*.*:ALL"},
                                        {name: ben2, pass: foo}],
                          mysql_repl_user: [{name: repl, pass: foobar}] }
@@ -120,5 +123,5 @@ Author Information
 ------------------
 
 Benno Joy
- 
+
 
