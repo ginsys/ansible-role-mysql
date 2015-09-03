@@ -2,36 +2,36 @@
 # The MySQL database server configuration file.
 #
 [client]
-port		= {{ mysql_port }}
-socket		= /var/run/mysqld/mysqld.sock
+port        = {{ mysql_port }}
+socket      = /var/run/mysqld/mysqld.sock
 
 # This was formally known as [safe_mysqld]. Both versions are currently parsed.
 [mysqld_safe]
-socket		= /var/run/mysqld/mysqld.sock
-nice		= 0
+socket      = /var/run/mysqld/mysqld.sock
+nice        = 0
 
 [mysqld]
-user		= mysql
-pid-file	= /var/run/mysqld/mysqld.pid
-socket		= /var/run/mysqld/mysqld.sock
-port		= {{ mysql_port }}
-basedir		= /usr
-datadir		= /var/lib/mysql
-tmpdir		= /tmp
-lc-messages-dir	= /usr/share/mysql
+user        = mysql
+pid-file    = /var/run/mysqld/mysqld.pid
+socket      = /var/run/mysqld/mysqld.sock
+port        = {{ mysql_port }}
+basedir     = /usr
+datadir     = /var/lib/mysql
+tmpdir      = /tmp
+lc-messages-dir = /usr/share/mysql
 skip-external-locking
 
-bind-address		= {{ mysql_bind_address }}
+bind-address        = {{ mysql_bind_address }}
 
-key_buffer		= 16M
-max_allowed_packet	= 16M
-thread_stack		= 192K
-thread_cache_size       = 8
+key_buffer      = {{ mysql_key_buffer }}
+max_allowed_packet  = {{ mysql_max_allowed_packet }}
+thread_stack        = {{ mysql_thread_stack }}
+thread_cache_size   = {{ mysql_thread_cache_size }}
 
-query_cache_limit	= 1M
-query_cache_size        = 16M
-log_error = /var/log/mysql/error.log
-server-id               = {{ mysql_db_id }}
+query_cache_limit   = {{ mysql_query_cache_limit }}
+query_cache_size    = {{ mysql_query_cache_size }}
+log_error           = /var/log/mysql/error.log
+server-id           = {{ mysql_db_id }}
 
 {% if mysql_repl_role == 'master' %}
 log_bin                 = mysql-bin
