@@ -89,7 +89,7 @@
     state:  absent
   sudo: no
 
-- name: Create the database's
+- name: Create the databases
   mysql_db:
     name:     "{{ item.name }}"
     state:    present
