@@ -1,8 +1,8 @@
 MySQL Server
 ============
 
-This is a fork of https://github.com/bennojoy/mysql which at in late September
-2015 seemed unmaintained for over a year.
+This is a fork of https://github.com/bennojoy/mysql which in late September
+2015 seemed unmaintained for over a year. Open PR's were merged in.
 
 This roles helps to install MySQL Server across RHEL and Ubuntu variants.
 Apart from installing the MySQL Server, it applies basic hardening, like

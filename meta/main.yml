@@ -1,9 +1,9 @@
 ---
 galaxy_info:
-  author: "Benno Joy"
-  company: AnsibleWorks
+  author: "Benno Joy, Serge van Ginderachter"
+  company: Ginsys
   license: license (BSD)
-  min_ansible_version: 1.4 
+  min_ansible_version: 1.9
   platforms:
    - name: EL
      versions:
@@ -23,4 +23,4 @@ galaxy_info:
   categories:
    - database:sql
 dependencies: []
-  
+
