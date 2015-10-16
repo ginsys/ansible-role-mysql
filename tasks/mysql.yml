@@ -8,7 +8,6 @@
     state:  installed
   with_items: mysql_pkgs
   when: ansible_os_family == 'RedHat'
-  sudo: yes
 
 - name: Install the mysql packages in Debian derivatives
   apt:
@@ -18,7 +17,6 @@
   with_items: mysql_pkgs
   environment: env
   when: ansible_os_family == 'Debian'
-  sudo: yes
 
 - name: Copy the my.cnf file
   template:
@@ -26,7 +24,6 @@
     dest:   "{{ mysql_conf_dir }}/my.cnf"
   notify:
    - restart mysql
-  sudo: yes
 
 - name: Create the directory /etc/mysql/conf.d
   file:
@@ -34,14 +31,12 @@
     state:  directory
   notify:
    - restart mysql
-  sudo: yes
 
 - name: Start the mysql services Redhat
   service:
     name:     "{{ mysql_service }}"
     state:    started
     enabled:  yes
-  sudo: yes
 
 - name: update mysql root password for all root accounts
   mysql_user:
@@ -71,7 +66,6 @@
     src:    ".my.cnf.j2"
     dest:   "~/.my.cnf"
     mode:   0600
-  sudo: no
 
 - name: ensure anonymous users are not in the database
   mysql_user:
@@ -81,13 +75,11 @@
   with_items:
    - localhost
    - "{{ ansible_hostname }}"
-  sudo: no
 
 - name: remove the test database
   mysql_db:
     name:   test
     state:  absent
-  sudo: no
 
 - name: Create the databases
   mysql_db:
@@ -95,7 +87,6 @@
     state:    present
   with_items: mysql_db
   when: mysql_db|lower() != 'none'
-  sudo: no
 
 - name: Create the database users
   mysql_user:
@@ -106,7 +97,6 @@
     host:       "{{ item.host | default('localhost') }}"
   with_items: mysql_users
   when: mysql_users|lower() != 'none'
-  sudo: no
 
 - name: Create the replication users
   mysql_user:
@@ -117,7 +107,6 @@
     state:    present
   with_items: mysql_repl_user
   when: mysql_repl_role == 'master'
-  sudo: no
 
 - name: Check if slave is already configured for replication
   mysql_replication:
@@ -125,7 +114,6 @@
   ignore_errors: true
   register: slave
   when: mysql_repl_role == 'slave'
-  sudo: no
 
 - name: Ensure the hostname entry for master is available for the client.
   lineinfile:
@@ -134,7 +122,6 @@
     line:       "{{ hostvars[mysql_repl_master].ansible_default_ipv4.address + '   ' + mysql_repl_master }}"
     state:      present
   when: slave|failed and mysql_repl_role == 'slave' and mysql_repl_master is defined
-  sudo: no
 
 - name: Get the current master servers replication status
   mysql_replication:
@@ -142,7 +129,6 @@
   delegate_to: "{{ mysql_repl_master }}"
   register: repl_stat
   when: slave|failed and mysql_repl_role == 'slave' and mysql_repl_master is defined
-  sudo: no
 
 - name: Change the master in slave to start the replication
   mysql_replication:
@@ -153,5 +139,4 @@
     master_user:        "{{ mysql_repl_user[0].name }}"
     master_password:    "{{ mysql_repl_user[0].pass }}"
   when: slave|failed and mysql_repl_role == 'slave' and mysql_repl_master is defined
-  sudo: no
 
