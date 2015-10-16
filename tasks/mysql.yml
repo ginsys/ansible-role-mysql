@@ -64,13 +64,13 @@
    - 127.0.0.1
    - ::1
    - localhost
+  when: mysql_root_db_pass and ansible_hostname == 'localhost'
 
 - name: copy .my.cnf file with root password credentials
   template:
     src:    ".my.cnf.j2"
     dest:   "~/.my.cnf"
     mode:   0600
-  when: mysql_root_db_pass and ansible_hostname == 'localhost'
   sudo: no
 
 - name: ensure anonymous users are not in the database
